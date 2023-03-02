@@ -63,7 +63,7 @@ require_once 'system/head.php';
         <div class="container-fluid bg-dark-footer copyright">
             <div class="row pt-4 pb-4">
                 <div class="col-md-12 text-center mb-3 mb-md-0 text-white">
-                    &copy; Copyright <strong><span>MCCODE STUDIO</span></strong>. All Rights Reserved 2023 Developer by <a href="https://web.facebook.com/chanonbewRTC" class="text-success">Chanondevs</a> Version <?php require_once 'api/api.php'; echo api::getVersion(); ?>
+                    &copy; Copyright <strong><span>Chanondevs</span></strong>. All Rights Reserved 2023 Developer by <a href="https://web.facebook.com/chanonbewRTC" class="text-success">Chanondevs</a> Version <?php require_once 'api/api.php'; echo api::getVersion(); ?>
                 </div>
             </div>
         </div>
