@@ -1,0 +1,11 @@
+{
+    "require": {
+        "firebase/php-jwt": "^6.3",
+        "altorouter/altorouter": "^2.0",
+        "vlucas/phpdotenv": "^5.5",
+        "chillerlan/php-qrcode": "^4.3",
+        "paragonie/sodium_compat": "^1.19",
+        "tecnickcom/tc-lib-barcode": "^1.15",
+        "myclabs/php-enum": "^1.8"
+    }
+}
