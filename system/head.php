@@ -18,5 +18,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <script type="text/javascript" src="http://w2ui.com/src/w2ui-1.5.min.js"></script>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.2.2/swiper-bundle.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.2.2/swiper-bundle.min.js"></script>
+
     <link href="assets/css/main.css" rel="stylesheet">
     <link href="assets/css/card.css" rel="stylesheet">

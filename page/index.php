@@ -3,6 +3,7 @@
 // echo "<pre>"; print_r($_SESSION); echo "<br>";
 
 use api\api;
+use db\dbconnect;
 
 if (isset($_SESSION['user_id'])) {
     $data_user = api::getUser($_SESSION['user_id']);
@@ -52,22 +53,107 @@ require_once 'system/head.php';
     </nav>
 
     <main>
-        <?php 
-        
-        Api::TestEnum()
+        <div class="container swiper">
+            <div class="slide-container">
+                <div class="mb-4">
+                    <h5>สินค้ายอดนิยม</h5>
+                </div>
+                <div class="card-wrapper swiper-wrapper">
+                    <?php
+                    $sql = "SELECT * FROM product";
+                    $stmt = dbconnect::connect()->prepare($sql);
+                    $stmt->execute();
+                    if (!empty($stmt)) {
+                        $sqlpost_list = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
+                        $stmtpost_list = dbconnect::connect()->prepare($sqlpost_list);
+                        $stmtpost_list->execute();
+                        $rowpost_list = $stmtpost_list->fetch();
 
-        ?>
+                        $dataPost = json_encode($rowpost_list);
+                        $dataPost = json_decode($dataPost);
+                        do {
+                    ?>
+                            <div class="card-product swiper-slide">
+                                <div class="card-img">
+                                    <img src="<?php Api::base_url('assets/img/product/' . $rowpost_list['img']) ?>" alt="<?php $rowpost_list['img']; ?>" class="card-img">
+                                </div>
+                                <div class="details">
+                                    <div class="buy-product">
+                                        <?php
+
+                                        if (!isset($_SESSION['user_id'])) {
+                                        ?>
+                                            <button type="button" id="login" class="btn btn-primary">ซื้อสินค้า</button>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button type="button" id="login" class="btn btn-primary">ซื้อสินค้า</button>
+                                        <?php
+                                        }
+
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="card-product-footer">
+                                    <div class="ft-l">
+                                        <i class="fa-solid fa-money-bill"></i>
+                                        <p>ราคา <?php echo $rowpost_list['price'] ?> บาท</p>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        } while ($rowpost_list = $stmtpost_list->fetch());
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+        </div>
     </main>
 
     <footer style="background-color: #333;">
         <div class="container-fluid bg-dark-footer copyright">
             <div class="row pt-4 pb-4">
                 <div class="col-md-12 text-center mb-3 mb-md-0 text-white">
-                    &copy; Copyright <strong><span>Chanondevs</span></strong>. All Rights Reserved 2023 Developer by <a href="https://web.facebook.com/chanonbewRTC" class="text-success">Chanondevs</a> Version <?php require_once 'api/api.php'; echo api::getVersion(); ?>
+                    &copy; Copyright <strong><span>MCCODE STUDIO</span></strong>. All Rights Reserved 2023 Developer by <a href="https://web.facebook.com/chanonbewRTC" class="text-success">Chanondevs</a> Version <?php require_once 'api/api.php';
+                                                                                                                                                                                                                    echo api::getVersion(); ?>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script>
+        var swiper = new Swiper(".slide-container", {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                },
+                520: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                1000: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
