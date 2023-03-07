@@ -134,7 +134,7 @@ class Message {
         }
     }
 
-    public function msg_toast_success($title, $time, $link){
+    public static function msg_toast_success($title, $time, $link){
         if ($link == "") {
             if ($time == "") {
                 $time = 2500;
@@ -173,7 +173,7 @@ class Message {
         }
     }
 
-    public function msg_toast_error($title, $time, $link){
+    public static function msg_toast_error($title, $time, $link){
         if ($link == "") {
             if ($time == "") {
                 $time = 2500;

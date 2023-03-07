@@ -197,6 +197,59 @@ class api {
         return $order_data_decode;
     }
 
+    public static function GetProductList(){
+        if (isset($_SESSION['cart'])){
+            foreach($_SESSION['cart'] as $key => $val){
+                $data_product = api::getProduct($val['product_id']);
+                $product_name = $data_product['product_name'];
+                $product_price = $data_product['product_price'];
+                $product_amount = $_SESSION['cart'][$key]['amount'];
+                $element = "<tr>
+                <td>$product_name</td>
+                <td>$product_price</td>
+                <td>$product_amount</td>
+            </tr>";
+            echo $element;
+            }
+        }
+    }
+
+    public static function cartElement($product_id){
+        $product_data = api::getProduct($product_id);
+        $productimg = $product_data['product_image'];
+        $productname = $product_data['product_name'];
+        $productprice = $product_data['product_price'];
+        $productimg = api::base_url_json("assets/img/product/" . $productimg);
+        if (isset($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $key => $value) {
+                $count = $_SESSION['cart'][$key]['amount'];
+            }
+        }
+        $element = "
+            <div class=\"card mb-3\">
+                <div class=\"row g-0\">
+                    <div class=\"col-md-2 d-flex\">
+                        <img src=$productimg alt=\"Image1\" class=\"img-fluid align-item-center\">
+                    </div>
+                    <div class=\"col-md-5\">
+                        <br>
+                        <br>
+                        <h5 class=\"pt-2\">$productname</h5>
+                        <h5 class=\"pt-2\">ราคา $productprice บาท</h5>
+                    </div>
+                    <div class=\"col-md-3 py-5\">
+                        <div>
+                            <br>
+                            <button type=\"submit\" class=\"btn bg-light border rounded-circle\" onclick=\"reduceCart('$product_id')\"><i class=\"fas fa-minus\"></i></button>
+                            <input type=\"tel\" value=\"$count\" class=\"form-control w-25 d-inline\">
+                            <button type=\"submit\" class=\"btn bg-light border rounded-circle\" onclick=\"increaseCart('$product_id')\"><i class=\"fas fa-plus\"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+            echo $element;
+    }
+
     public static function TestEnum(){
         echo ApiEnum::getStatus("Status0");
     }
