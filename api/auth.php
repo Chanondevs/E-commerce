@@ -5,7 +5,9 @@ namespace api;
 use db\dbconnect;
 use PDOException;
 
-session_start();
+if(!isset($_SESSION)) { 
+    session_start(); 
+} 
 
 class auth{
 

@@ -1,14 +1,12 @@
 <?php
 
-use api\Api;
+use api\api;
 use message\Message;
 
 require_once("connect/dbconnect.php");
-require_once("system/head.php");
 require_once("api/api.php");
-require_once("api/order.php");
 require_once("api/message.php");
-
+require_once 'system/head.php';
 if (!empty($_SESSION['cart'])) {
     $data_cart = json_encode($_SESSION['cart']);
 }
@@ -29,24 +27,35 @@ if (!empty($_SESSION['cart'])) {
         <div class="container-fluid">
             <a href="<?php echo Api::base_url_json('home'); ?>" class="navbar-brand">
                 <h3 class="px-5 text-white">
-                    <i class="fas fa-shopping-basket"></i> RTCShop
+                    <i class="fas fa-shopping-basket"></i> E-Com
                 </h3>
             </a>
-            <a href="<?php Api::base_url_json('card') ?>" class="nav-item nav-link active">
-                <h5 class="px-5 cart text-white">
-                    <i class="fas fa-shopping-cart"></i> Cart
-                    <?php
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    if (isset($_SESSION['cart'])) {
-                        $count = count($_SESSION['cart']);
-                        echo "<span id=\"cart_count\" class=\"text-warning bg-light\">$count</span>";
-                    } else {
-                        echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
-                    }
+            <div class="px-5 collapse navbar-collapse" id="navbarsExample09">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-white active" aria-current="page" href="<?php echo Api::base_url_json('home'); ?>">หน้าหลัก</a>
+                    </li>
+                </ul>
+                <a href="<?php echo Api::base_url_json('cart'); ?>" class="nav-item nav-link active">
+                    <h5 class="cart text-white ">
+                        <i class="fas fa-shopping-cart"></i> ตะกร้า
+                        <?php
 
-                    ?>
-                </h5>
-            </a>
+                        if (isset($_SESSION['cart'])) {
+                            $count = count($_SESSION['cart']);
+                            echo "<span id=\"cart_count\" class=\"text-warning bg-light\">$count</span>";
+                        } else {
+                            echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
+                        }
+
+                        ?>
+                    </h5>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -104,10 +113,11 @@ if (!empty($_SESSION['cart'])) {
     </main>
 
     <footer style="background-color: #333;">
-        <div class="container-fluid bg-dark-footer copyright py-3">
-            <div class="row pt-3 pb-3">
+        <div class="container-fluid bg-dark-footer copyright">
+            <div class="row pt-4 pb-4">
                 <div class="col-md-12 text-center mb-3 mb-md-0 text-white">
-                    &copy; Copyright <strong><span>RTCShop</span></strong>. 2023 Developer by <a href="https://web.facebook.com/chanonbewRTC" class="text-primary">Amonwan</a> Version <?php echo Api::getVersion() ?>
+                    &copy; Copyright <strong><span>Chanondevs</span></strong>. All Rights Reserved 2023 Developer by <span>Chanondevs</span> Version <?php require_once 'api/api.php';
+                                                                                                                                                        echo api::getVersion(); ?>
                 </div>
             </div>
         </div>
@@ -119,7 +129,7 @@ if (!empty($_SESSION['cart'])) {
 
             $.ajax({
                 type: 'POST',
-                url: <?php Api::base_url_ajax('service/add-order.php') ?>,
+                url: <?php api::base_url_ajax('service/add-orders.php') ?>,
                 dataType: 'json',
                 data: {
                     data
