@@ -53,7 +53,7 @@
         <a href="index3.html" class="nav-link">หน้าหลัก</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/admin/?page=order" class="nav-link">ออเดอร์ <?php api::checkOrderNewNav() ?></a>
+        <a href="/admin/order" class="nav-link">ออเดอร์ <?php api::checkOrderNewNav() ?></a>
       </li>
     </ul>
   </nav>
@@ -74,7 +74,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-header">หน้าหลัก</li>
           <li class="nav-item">
-            <a href="/admin/?page=home" class="nav-link active">
+            <a href="/admin" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 หน้าหลัก
@@ -83,7 +83,7 @@
           </li>
           <li class="nav-header">จัดการออเดอร์</li>
           <li class="nav-item">
-            <a href="/admin/?page=order" class="nav-link">
+            <a href="/admin/order" class="nav-link">
               <i class="nav-icon fa-solid fa-cart-shopping"></i>
               <p>
                 ออเดอร์
@@ -91,14 +91,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-header">เพิ่มสินค้า</li>
+          <li class="nav-header">จัดการสมาชิก</li>
           <li class="nav-item">
-            <a href="/admin/?page=add-product" class="nav-link">
-              <i class="nav-icon fa-solid fa-cart-plus"></i>
-              <p>
-                เพิ่มสินค้า
-              </p>
-            </a>
+              <a href="/admin/edit-user" class="nav-link">
+                  <i class="nav-icon fa-solid fa-user"></i>
+                  <p>
+                      จัดการสมาชิก
+                  </p>
+              </a>
           </li>
           <li class="nav-header">ออกจากระบบ</li>
           <li class="nav-item">

@@ -67,7 +67,20 @@ if (!empty($_SESSION['cart'])) {
                         <h6>อัพเดตการโอนเงิน</h6>
                         <hr>
                         <div class="card mb-3">
-                            
+                            <div class="row px-4 py-4">
+                                <div class="col-xl-12">
+                                    <div class="mb-1">กรุณาใส่สลิปการโอนเงิน</div>
+                                    <div class="input-group mb-3">
+                                        <input id="slipupload" type="file" class="form-control">
+                                        <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <button type="button" id="submitslipupload" class="btn btn-success">อัพเดตสลิปการโอนเงิน</button>
+                                        <a href="company.php?page=home"><button type="button" class="btn btn-danger">ยกเลิก</button></a>
+                                    </div>
+                                    <input id="order_SeqNo" type="hidden" value="<?php echo $_SESSION['order_SeqNo']?>">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,10 +108,6 @@ if (!empty($_SESSION['cart'])) {
                             </div>
                         </div>
                     </div>
-
-                    <div class="d-flex justify-content-center mt-5">
-                        <button type="button" id="submitOrder" class="btn btn-success">อัพเดตสลิปการโอนเงิน</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -116,16 +125,22 @@ if (!empty($_SESSION['cart'])) {
     </footer>
 
     <script>
-        $("#submitOrder").click(function() {
-            var data = <?php echo $data_cart; ?>;
+        $("#submitslipupload").click(function() {
+            var slipupload = $("#slipupload").prop('files')[0];
+            var order_SeqNo = $("#order_SeqNo").val();
+            var form_data = new FormData();
+            form_data.append("slipupload", slipupload);
+            form_data.append("order_SeqNo", order_SeqNo);
+
+            console.log(form_data)
 
             $.ajax({
                 type: 'POST',
-                url: <?php api::base_url_ajax('service/add-orders.php') ?>,
+                url: '/service/update-payment.php',
+                contentType: false,
+                processData: false,
                 dataType: 'json',
-                data: {
-                    data
-                },
+                data: form_data,
                 success: function(data) {
                     if (data.status == "success") {
                         const Toast = Swal.mixin({
@@ -162,99 +177,7 @@ if (!empty($_SESSION['cart'])) {
                     }
                 }
             })
-        })
-
-        function reduceCart(id) {
-            $.ajax({
-                type: 'POST',
-                url: <?php Api::base_url_ajax('service/reduce-cart.php') ?>,
-                dataType: 'json',
-                data: {
-                    id
-                },
-                success: function(data) {
-                    if (data.status == "success") {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-right',
-                            showConfirmButton: false,
-                            timer: 2500,
-                            timerProgressBar: true
-                        })
-                        Toast.fire({
-                            icon: data.status,
-                            title: data.message
-                        }).then((result) => {
-                            if (result.isDismissed) {
-                                window.location.href = data.href;
-                            }
-                        })
-                    } else {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-right',
-                            showConfirmButton: false,
-                            timer: 2500,
-                            timerProgressBar: true
-                        })
-                        Toast.fire({
-                            icon: data.status,
-                            title: data.message
-                        }).then((result) => {
-                            if (result.isDismissed) {
-                                window.location.href = data.href;
-                            }
-                        })
-                    }
-                }
-            })
-        }
-
-        function increaseCart(id) {
-            $.ajax({
-                type: 'POST',
-                url: <?php Api::base_url_ajax('service/increase-cart.php') ?>,
-                dataType: 'json',
-                data: {
-                    id
-                },
-                success: function(data) {
-                    if (data.status == "success") {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-right',
-                            showConfirmButton: false,
-                            timer: 2500,
-                            timerProgressBar: true
-                        })
-                        Toast.fire({
-                            icon: data.status,
-                            title: data.message
-                        }).then((result) => {
-                            if (result.isDismissed) {
-                                window.location.href = data.href;
-                            }
-                        })
-                    } else {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-right',
-                            showConfirmButton: false,
-                            timer: 2500,
-                            timerProgressBar: true
-                        })
-                        Toast.fire({
-                            icon: data.status,
-                            title: data.message
-                        }).then((result) => {
-                            if (result.isDismissed) {
-                                window.location.href = data.href;
-                            }
-                        })
-                    }
-                }
-            })
-        }
+        });
     </script>
 
     <script>

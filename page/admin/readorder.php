@@ -33,6 +33,10 @@
 
     use api\api;
 
+    if (isset($order_SeqNo)){
+        $data = api::getOrder($order_SeqNo);
+    }
+
     ?>
 </head>
 
@@ -75,7 +79,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-header">หน้าหลัก</li>
                         <li class="nav-item">
-                            <a href="/admin" class="nav-link">
+                            <a href="/admin/" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     หน้าหลัก
@@ -92,12 +96,12 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">เพิ่มสินค้า</li>
+                        <li class="nav-header">จัดการสมาชิก</li>
                         <li class="nav-item">
-                            <a href="/admin/add-product" class="nav-link">
-                                <i class="nav-icon fa-solid fa-cart-plus"></i>
+                            <a href="/admin/edit-user" class="nav-link">
+                                <i class="nav-icon fa-solid fa-user"></i>
                                 <p>
-                                    เพิ่มสินค้า
+                                    จัดการสมาชิก
                                 </p>
                             </a>
                         </li>
@@ -153,7 +157,7 @@
                                             <h3 class="card-title">สลิปการโอนเงิน</h3>
                                         </div>
                                         <div class="card-body">
-                                            <img src="/assets/img/slip/333370208_623472879556294_2002879955050742192_n.jpg" class="rounded mx-auto d-block" alt="..." width="300" height="400">
+                                            <img src="/assets/img/slip/<?php echo $data['order_payment_img']?>" class="rounded mx-auto d-block" alt="<?php ?>" width="300" height="400">
                                         </div>
                                     </div>
                                 </div>

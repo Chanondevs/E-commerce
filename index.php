@@ -29,12 +29,7 @@ $router->map( "GET", "/test/", function() {
     require_once __DIR__ .  '/Test/index.php';
 });
 
-/** Home Page */
-$router->map( "GET", "/home/", function() {
-    require_once __DIR__ .  '/page/home.php';
-});
-
-$router->map( "GET", "/cart/", function() {
+$router->map( "GET", "/cart", function() {
     require_once __DIR__ .  '/page/cart.php';
 });
 
@@ -44,7 +39,7 @@ $router->map( "GET", "/checkout", function() {
 });
 
 /** Login Page */
-$router->map( "GET", "/login/", function() {
+$router->map( "GET", "/login", function() {
     require_once __DIR__ .  '/page/login.php';
 });
 

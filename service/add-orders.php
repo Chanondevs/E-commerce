@@ -10,6 +10,6 @@ $user_id = $_SESSION['user_id'];
 
 $order_data_product = json_encode($order_product);
 
-api::addOrder($order_data_product, $user_id);
+api::addOrder($user_id, $order_data_product);
 
 ?>

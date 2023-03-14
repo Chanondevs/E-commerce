@@ -199,6 +199,31 @@ class api {
 
     /* Get Data */
 
+    public static function GetDataUser($id) {
+        $stmt = dbconnect::connect()->prepare("SELECT * FROM user WHERE id = $id");
+        $stmt->execute();
+        $row = $stmt->fetch();
+        if ($stmt->rowCount() > 0) {
+            $response = array(
+                'status' => 'success',
+                'response' => array (
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'surname' => $row['surname'],
+                    'user_name' => $row['user_name']
+                )
+            );
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'status' => 'error',
+                'message' => 'มีบางอย่างผิดพลาด',
+                'href' => '/'
+            );
+            return json_encode($response);
+        }
+    }
+
     public static function getUser($id){
         $stmt = dbconnect::connect()->prepare("SELECT * FROM user WHERE id = :id");
         $stmt->execute([':id' => $id]);
@@ -216,6 +241,13 @@ class api {
     public static function getProduct($id){
         $stmt = dbconnect::connect()->prepare("SELECT * FROM product WHERE id = :id");
         $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch();
+        return $row;
+    }
+
+    public static function getOrder($order_SeqNo){
+        $stmt = dbconnect::connect()->prepare("SELECT * FROM orders WHERE order_SeqNo = :order_SeqNo");
+        $stmt->execute([':order_SeqNo' => $order_SeqNo]);
         $row = $stmt->fetch();
         return $row;
     }
@@ -321,7 +353,7 @@ class api {
                         </i>
                         อัพเดต
                     </a>
-                    <button type='button' class='btn btn-danger btn-sm' onclick='deleteOrder(". $order_SeqNo .")'>
+                    <button type='button' class='btn btn-danger btn-sm'  onclick=\"deleteOrder('$order_SeqNo')\"'>
                         <i class='fas fa-trash'>
                         </i>
                         ลบ
@@ -502,6 +534,44 @@ class api {
         }
     }
 
+    public static function getUserListAdmin(){
+        $stmt = dbconnect::connect()->prepare("SELECT * FROM user");
+        $stmt->execute();
+        $row = $stmt->fetchAll();
+        if(!empty($row)){
+            foreach($row as $val){
+                $user_id = $val['id'];
+                $name = $val['name'];
+                $surname = $val['surname'];
+                $username = $val['user_name'];
+                $element = "<tr>
+                <td>$name</td>
+                <td>$surname</td>
+                <td>$username</td>
+                </td>
+                <td class='project-actions'>
+                    <button type='button' class='btn btn-success btn-sm' onclick=\"EditUser('$user_id')\"'>
+                        <i class='fas fa-pencil-alt'>
+                        </i>
+                        แก้ไข
+                    </button>
+                    <button type='button' class='btn btn-danger btn-sm' onclick=\"deleteUser('$user_id')\"'>
+                        <i class='fas fa-trash'>
+                        </i>
+                        ลบ
+                    </button>
+                </td>
+            </tr>";
+            echo $element;
+            }
+        } else {
+            $element = "<tr>
+            <td class='dataTables-empty' colspan='5'>ไม่มี user ขณะนี้</td>
+            </tr>";
+            echo $element;
+        }
+    }
+
     /* cart */
 
     public static function addCart($product_id){
@@ -645,7 +715,7 @@ class api {
         $response = array(
             'status' => 'success',
             'message' => 'ลบ order เรียบร้อยเเล้ว',
-            'href' => '/'
+            'href' => '/admin/order'
         );
         echo json_encode($response);
     }
@@ -745,9 +815,28 @@ class api {
 
     /* Update Payment */
 
-    public static function Update_Payment(){
-        $stmt = dbconnect::connect()->prepare("UPDATE `orders` SET `id`='[value-1]',`order_SeqNo`='[value-2]',`order_user_id`='[value-3]',`order_data`='[value-4]',`order_payment_img`='[value-5]',`order_status`='[value-6]',`order_create`='[value-7]' WHERE 1");
-        
+    public static function Update_Payment($order_SeqNo){
+        $stmt = dbconnect::connect()->prepare("UPDATE `orders` SET `order_payment_img`='' WHERE order_SeqNo = :order_SeqNo");
+        $stmt->execute(['order_SeqNo' => $order_SeqNo]);
+        $response = array(
+            'status' => 'success',
+            'message' => 'อัพรูปภาพสลิปสำเร็จ',
+            'href' => '/'
+        );
+        echo json_encode($response);
+    }
+
+    /* Edit API */
+
+    public static function EditUser($id, $edit_user_name, $edit_user_surname, $edit_user_username){
+        $stmt = dbconnect::connect()->prepare("UPDATE `user` SET `name`='$edit_user_name',`surname`='$edit_user_surname',`user_name`='$edit_user_username' WHERE id = '$id'");
+        $stmt->execute();
+        $response = array(
+            'status' => 'success',
+            'message' => 'อัพเดตข้อมูลสมาชิกเรียบร้อย',
+            'href' => '/admin/'
+        );
+        echo json_encode($response);
     }
 }
 

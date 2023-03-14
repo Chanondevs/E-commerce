@@ -68,7 +68,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-header">หน้าหลัก</li>
                     <li class="nav-item">
-                        <a href="<?php api::base_url('admin/?page=home') ?>" class="nav-link">
+                        <a href="/admin/" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 หน้าหลัก
@@ -77,7 +77,7 @@
                     </li>
                     <li class="nav-header">จัดการออเดอร์</li>
                     <li class="nav-item">
-                        <a href="<?php api::base_url('admin/?page=order') ?>" class="nav-link active">
+                        <a href="/admin/order" class="nav-link active">
                             <i class="nav-icon fa-solid fa-cart-shopping"></i>
                             <p>
                                 ออเดอร์
@@ -85,18 +85,18 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-header">เพิ่มสินค้า</li>
+                    <li class="nav-header">จัดการสมาชิก</li>
                     <li class="nav-item">
-                        <a href="<?php api::base_url('admin/?page=add-product') ?>" class="nav-link">
-                            <i class="nav-icon fa-solid fa-cart-plus"></i>
+                        <a href="/admin/edit-user" class="nav-link">
+                            <i class="nav-icon fa-solid fa-user"></i>
                             <p>
-                                เพิ่มสินค้า
+                                จัดการสมาชิก
                             </p>
                         </a>
                     </li>
                     <li class="nav-header">ออกจากระบบ</li>
                     <li class="nav-item">
-                        <a href="<?php api::base_url('logout') ?>" class="nav-link">
+                        <a href="/logout" class="nav-link">
                             <i class="nav-icon  fa-solid fa-right-from-bracket"></i>
                             <p>
                                 ออกจากระบบ
@@ -207,22 +207,57 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+    function deleteOrder(order_SeqNo) {
+        $.ajax({
+            type: 'POST',
+            url: '/service/admin-delete-order.php',
+            dataType: 'json',
+            data: {
+                order_SeqNo
+            },
+            success: function(data) {
+                if (data.status == "success") {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true
+                    })
+                    Toast.fire({
+                        icon: data.status,
+                        title: data.message
+                    }).then((result) => {
+                        if (result.isDismissed) {
+                            window.location.href = data.href;
+                        }
+                    })
+                } else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true
+                    })
+                    Toast.fire({
+                        icon: data.status,
+                        title: data.message
+                    }).then((result) => {
+                        if (result.isDismissed) {
+                            window.location.href = data.href;
+                        }
+                    })
+                }
+            }
+        })
+    }
 </script>
 <!-- jQuery -->
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
 <!-- Bootstrap 4 -->
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->

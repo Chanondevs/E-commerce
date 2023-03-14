@@ -30,7 +30,7 @@ class auth{
                     $response = array(
                         'status' => 'success',
                         'message' => 'เข้าสู่ระบบสำเร็จ',
-                        'href' => api::base_url_json('home')
+                        'href' => api::base_url_json('/')
                     );
                     echo json_encode($response);
                 } else {
