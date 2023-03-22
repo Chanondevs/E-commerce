@@ -29,13 +29,13 @@ $router->map( "GET", "/test/", function() {
     require_once __DIR__ .  '/Test/index.php';
 });
 
-/** Home Page */
-$router->map( "GET", "/home", function() {
-    require_once __DIR__ .  '/page/home.php';
-});
-
 $router->map( "GET", "/cart", function() {
     require_once __DIR__ .  '/page/cart.php';
+});
+
+/** Checkout Page */
+$router->map( "GET", "/checkout", function() {
+    require_once __DIR__ .  '/page/checkout.php';
 });
 
 /** Login Page */
@@ -44,22 +44,33 @@ $router->map( "GET", "/login", function() {
 });
 
 /** Logout Page */
-$router->map( "GET", "/logout", function() {
+$router->map( "GET", "/logout/", function() {
     require_once __DIR__ .  '/page/logout.php';
 });
 
 /** Login Admin Page */
-$router->map( "GET", "/loginadmin", function() {
+$router->map( "GET", "/loginadmin/", function() {
     require_once __DIR__ .  '/page/loginadmin.php';
 });
 
 /** Admin Page */
-$router->map( "GET", "/admin", function() {
+$router->map( "GET", "/admin/", function() {
     require_once __DIR__ .  '/page/admin/home.php';
 });
 
-$router->map( "GET", "/admin/user", function() {
-    require_once __DIR__ .  '/page/admin/user.php';
+/** Order Page */
+$router->map( "GET", "/admin/order", function() {
+    require_once __DIR__ .  '/page/admin/order.php';
+});
+
+/** Order Page */
+$router->map( "GET", "/admin/edit-user", function() {
+    require_once __DIR__ .  '/page/admin/edit-user.php';
+});
+
+/** Order Page */
+$router->map( "GET", "/admin/readorder/[a:order_SeqNo]", function($order_SeqNo) {
+    require_once __DIR__ .  '/page/admin/readorder.php';
 });
   
 
@@ -69,7 +80,6 @@ if( is_array($match) && is_callable( $match['target'] ) ) {
 } else {
   require_once __DIR__ . '/page/error.php';
 }
-
 ?>
 
 </body>
